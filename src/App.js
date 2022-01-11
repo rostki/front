@@ -14,12 +14,14 @@ import CreateListing from './pages/CreateListing'
 import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
 import Contact from './pages/Contact'
+import Customers from './pages/Customers'
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
+          <Route path='/customers' element={<Customers />} />
           <Route path='/' element={<Explore />} />
           <Route path='/offers' element={<Offers />} />
           <Route path='/category/:categoryName' element={<Category />} />
