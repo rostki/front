@@ -15,16 +15,27 @@ import { db } from '../firebase.config'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import CustomerItem from '../components/CustomerItem'
+import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg'
 
 function Customers() {
+    const auth = getAuth()
+  const [loading, setLoading] = useState(true)
     return (
-        <>
-        <div>
-            <h1>Customers</h1>
+        
+        <div className='profile'>
+            <header className='profileHeader'>
+        <p className='pageHeader'>Customers</p>
+      </header>
+      <main>
+      <Link to='/create-customer' className='createListing'>
+          {/* <img src={homeIcon} alt='home' /> */}
+          <p>Add a new Customer</p>
+          <img src={arrowRight} alt='arrow right' />
+        </Link>
+      </main>
         </div>
 
-            <CustomerItem />
-        </>
+       
     )
 }
 

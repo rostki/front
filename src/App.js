@@ -15,6 +15,7 @@ import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
 import Contact from './pages/Contact'
 import Customers from './pages/Customers'
+import CreateCustomer from './pages/CreateCustomer'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/create-listing' element={<CreateListing />} />
+          <Route path='/create-customer' element={<CreateCustomer />} />
           <Route path='/edit-listing/:listingId' element={<EditListing />} />
           <Route
             path='/category/:categoryName/:listingId'
