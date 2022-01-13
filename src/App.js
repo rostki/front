@@ -15,7 +15,9 @@ import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
 import Contact from './pages/Contact'
 import Customers from './pages/Customers'
+import Projects from './pages/Projects'
 import CreateCustomer from './pages/CreateCustomer'
+import CreateProject from './pages/CreateProject'
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/customers' element={<Customers />} />
+          <Route path='/projects' element={<Projects />} />
           <Route path='/' element={<Explore />} />
           <Route path='/offers' element={<Offers />} />
           <Route path='/category/:categoryName' element={<Category />} />
@@ -34,6 +37,7 @@ function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/create-listing' element={<CreateListing />} />
           <Route path='/create-customer' element={<CreateCustomer />} />
+          <Route path='/create-project' element={<CreateProject />} />
           <Route path='/edit-listing/:listingId' element={<EditListing />} />
           <Route
             path='/category/:categoryName/:listingId'
