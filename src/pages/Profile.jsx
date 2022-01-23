@@ -62,7 +62,7 @@ function Profile() {
 
   const onLogout = () => {
     auth.signOut()
-    navigate('/')
+    navigate('/sign-in')
   }
 
   const onSubmit = async () => {
@@ -149,11 +149,11 @@ function Profile() {
           </form>
         </div>
 
-        <Link to='/create-listing' className='createListing'>
+        {/* <Link to='/create-listing' className='createListing'>
           <img src={homeIcon} alt='home' />
           <p>Sell or rent your home</p>
           <img src={arrowRight} alt='arrow right' />
-        </Link>
+        </Link> */}
 
         {!loading && listings?.length > 0 && (
           <>

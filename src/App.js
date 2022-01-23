@@ -16,6 +16,9 @@ import Listing from './pages/Listing'
 import Contact from './pages/Contact'
 import Customers from './pages/Customers'
 import Projects from './pages/Projects'
+import Jobs from './pages/Jobs'
+import Job from './pages/Job'
+import CreateJob from './pages/CreateJob'
 import CreateCustomer from './pages/CreateCustomer'
 import CreateProject from './pages/CreateProject'
 
@@ -25,7 +28,15 @@ function App() {
       <Router>
         <Routes>
           <Route path='/customers' element={<Customers />} />
-          <Route path='/projects' element={<Projects />} />
+          <Route path='/jobs' element={<PrivateRoute />}>
+            <Route path='/jobs' element={<Jobs />} />
+          </Route>
+          <Route path='/job/:jobId' element={<PrivateRoute />}>
+            <Route path='/job/:jobId' element={<Job />} />
+          </Route>
+          <Route path='/projects' element={<PrivateRoute />}>
+            <Route path='/projects' element={<Projects />} />
+          </Route>
           <Route path='/' element={<Explore />} />
           <Route path='/offers' element={<Offers />} />
           <Route path='/category/:categoryName' element={<Category />} />
@@ -38,6 +49,7 @@ function App() {
           <Route path='/create-listing' element={<CreateListing />} />
           <Route path='/create-customer' element={<CreateCustomer />} />
           <Route path='/create-project' element={<CreateProject />} />
+          <Route path='/create-job' element={<CreateJob />} />
           <Route path='/edit-listing/:listingId' element={<EditListing />} />
           <Route
             path='/category/:categoryName/:listingId'

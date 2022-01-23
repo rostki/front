@@ -15,13 +15,13 @@ import { db } from '../firebase.config'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import CustomerItem from '../components/CustomerItem'
-import Project from '../components/Project'
+import JobItem from '../components/JobItem'
 import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg'
 
-function Projects() {
+function Jobs() {
   const auth = getAuth()
   const [loading, setLoading] = useState(true)
-  const [projects, setProjects] = useState(null)
+  const [jobs, setJobs] = useState(null)
   const [changeDetails, setChangeDetails] = useState(false)
   const [formData, setFormData] = useState({
     
@@ -33,41 +33,41 @@ function Projects() {
 
   useEffect(() => {
       
-    const fetchUserProjects = async () => {
-      const projectsRef = collection(db, 'projects')
+    const fetchUserJobs = async () => {
+      const jobsRef = collection(db, 'jobs')
 
       const q = query(
-        projectsRef,
+        jobsRef,
         where('userRef', '==', auth.currentUser.uid),
         orderBy('timestamp', 'desc')
       )
 
       const querySnap = await getDocs(q)
 
-      let projects = []
+      let jobs = []
 
       querySnap.forEach((doc) => {
-        return projects.push({
+        return jobs.push({
           id: doc.id,
           data: doc.data(),
         })
       })
 
-      setProjects(projects)
+      setJobs(jobs)
       setLoading(false)
     }
 
-    fetchUserProjects()
+    fetchUserJobs()
   }, [auth.currentUser.uid])
 
-  const onDelete = async (projectId) => {
+  const onDelete = async (jobId) => {
     if (window.confirm('Are you sure you want to delete?')) {
-      await deleteDoc(doc(db, 'projects', projectId))
-      const updatedProjects = projects.filter(
-        (project) => project.id !== projectId
+      await deleteDoc(doc(db, 'jobs', jobId))
+      const updatedJobs = jobs.filter(
+        (job) => job.id !== jobId
       )
-      setProjects(updatedProjects)
-      toast.success('Successfully deleted project')
+      setJobs(updatedJobs)
+      toast.success('Successfully deleted job')
     }
   }
 
@@ -75,25 +75,25 @@ function Projects() {
     return (
         <div className='profile'>
             <header className='profileHeader'>
-        <p className='pageHeader'>Projects</p>
+        <p className='pageHeader'>Jobs</p>
       </header>
       <main>
-      <Link to='/create-project' className='createListing'>
+      <Link to='/create-job' className='createListing'>
           {/* <img src={homeIcon} alt='home' /> */}
-          <p>Add a new Project</p>
+          <p>Add a new Job</p>
           <img src={arrowRight} alt='arrow right' />
         </Link>
 
-        {!loading && projects?.length > 0 && (
+        {!loading && jobs?.length > 0 && (
           <>
-            <p className='listingText'>Your Projects</p>
+            <p className='listingText'>Your Jobs</p>
             <ul className='listingsList'>
-              {projects.map((project) => (
-                <Project
-                  key={project.id}
-                  project={project.data}
-                  id={project.id}
-                  onDelete={() => onDelete(project.id)}
+              {jobs.map((job) => (
+                <JobItem
+                  key={job.id}
+                  job={job.data}
+                  id={job.id}
+                  onDelete={() => onDelete(job.id)}
                 //   onEdit={() => onEdit(project.id)}
                 />
               ))}
@@ -105,4 +105,4 @@ function Projects() {
     )
 }
 
-export default Projects
+export default Jobs
