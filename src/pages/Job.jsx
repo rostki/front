@@ -5,11 +5,24 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
-import { getDoc, doc } from 'firebase/firestore'
+import { getDoc,
+     doc,
+     updateDoc,
+     collection,
+     getDocs,
+     query,
+     where,
+     orderBy,
+     deleteDoc, 
+    } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { db } from '../firebase.config'
 import Spinner from '../components/Spinner'
 import shareIcon from '../assets/svg/shareIcon.svg'
+import { toast } from 'react-toastify'
+import Project from '../components/Project'
+import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg'
+
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
 
 function Job() {
@@ -20,6 +33,14 @@ function Job() {
   const navigate = useNavigate()
   const params = useParams()
   const auth = getAuth()
+
+  const [projects, setProjects] = useState(null)
+  const [changeDetails, setChangeDetails] = useState(false)
+  const [formData, setFormData] = useState({
+    
+    name: auth.currentUser.displayName,
+    email: auth.currentUser.email,
+  })
 
   useEffect(() => {
     const fetchJob= async () => {
@@ -33,11 +54,51 @@ function Job() {
     }
 
     fetchJob()
-  }, [navigate, params.jobId])
+
+    const fetchUserProjects = async () => {
+        const projectsRef = collection(db, 'projects')
+  
+        const q = query(
+          projectsRef,
+          where('userRef', '==', auth.currentUser.uid),
+          orderBy('timestamp', 'desc')
+        )
+  
+        const querySnap = await getDocs(q)
+  
+        let projects = []
+  
+        querySnap.forEach((doc) => {
+          return projects.push({
+            id: doc.id,
+            data: doc.data(),
+          })
+        })
+  
+        setProjects(projects)
+        setLoading(false)
+      }
+  
+      fetchUserProjects()
+  }, [navigate, params.jobId, auth.currentUser.uid])
 
   if (loading) {
     return <Spinner />
   }
+
+
+  const onDelete = async (projectId) => {
+    if (window.confirm('Are you sure you want to delete?')) {
+      await deleteDoc(doc(db, 'projects', projectId))
+      const updatedProjects = projects.filter(
+        (project) => project.id !== projectId
+      )
+      setProjects(updatedProjects)
+      toast.success('Successfully deleted project')
+    }
+  }
+
+
 
   return (
     <main>
@@ -101,8 +162,37 @@ function Job() {
             </Marker>
           </MapContainer>
         </div> */}
+<div className='profile'>
+            <header className='profileHeader'>
+        <p className='pageHeader'>Projects</p>
+      </header>
+      <main>
+      <Link to='/create-project' className='createListing'>
+          {/* <img src={homeIcon} alt='home' /> */}
+          <p>Add a new Project</p>
+          <img src={arrowRight} alt='arrow right' />
+        </Link>
 
+        {!loading && projects?.length > 0 && (
+          <>
+            <p className='listingText'>Your Projects</p>
+            <ul className='listingsList'>
+              {projects.map((project) => (
+                <Project
+                  key={project.id}
+                  project={project.data}
+                  id={project.id}
+                  onDelete={() => onDelete(project.id)}
+                //   onEdit={() => onEdit(project.id)}
+                />
+              ))}
+            </ul>
+          </>
+        )}
+      </main>
+        </div>
       </div>
+      
     </main>
   )
 }
