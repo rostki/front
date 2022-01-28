@@ -21,12 +21,16 @@ import Job from './pages/Job'
 import CreateJob from './pages/CreateJob'
 import CreateCustomer from './pages/CreateCustomer'
 import CreateProject from './pages/CreateProject'
+import Material from './pages/Material'
+import Materials from './pages/Materials'
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
+        <Route path='/materials' element={<Materials />} />
+        <Route path='/material/:materialId' element={<Material />} />
           <Route path='/customers' element={<Customers />} />
           <Route path='/jobs' element={<PrivateRoute />}>
             <Route path='/jobs' element={<Jobs />} />

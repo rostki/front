@@ -5,6 +5,7 @@ import { ReactComponent as PersonOutlineIcon } from '../assets/svg/personOutline
 import { ReactComponent as CustomersIcon } from '../assets/svg/customersIcon.svg'
 import { ReactComponent as ProjectsIcon } from '../assets/svg/projectsIcon.svg'
 import { ReactComponent as HomeIcon } from '../assets/svg/homeIcon.svg'
+import { ReactComponent as MaterialIcon } from '../assets/svg/materialIcon.svg'
 
 function Navbar() {
   const navigate = useNavigate()
@@ -20,8 +21,25 @@ function Navbar() {
     <footer className='navbar'>
       <nav className='navbarNav'>
         <ul className='navbarListItems'>
+
+        <li className='navbarListItem' onClick={() => navigate('/materials ')}>
+            <MaterialIcon
+              fill={pathMatchRoute('/materials') ? '#2c2c2c' : '#8f8f8f'}
+              width='36px'
+              height='36px'
+            />
+            <p
+              className={
+                pathMatchRoute('/materials')
+                  ? 'navbarListItemNameActive'
+                  : 'navbarListItemName'
+              }
+            >
+              Materials
+            </p>
+          </li>
           {/* added icon */}
-        <li className='navbarListItem' onClick={() => navigate('/customers ')}>
+        {/* <li className='navbarListItem' onClick={() => navigate('/customers ')}>
             <CustomersIcon
               fill={pathMatchRoute('/customers') ? '#2c2c2c' : '#8f8f8f'}
               width='36px'
@@ -36,9 +54,9 @@ function Navbar() {
             >
               Customers
             </p>
-          </li>
+          </li> */}
               {/* end added icon */}
-              <li className='navbarListItem' onClick={() => navigate('/projects ')}>
+              {/* <li className='navbarListItem' onClick={() => navigate('/projects ')}>
             <ProjectsIcon
               fill={pathMatchRoute('/projects') ? '#2c2c2c' : '#8f8f8f'}
               width='36px'
@@ -53,7 +71,7 @@ function Navbar() {
             >
               Projects
             </p>
-          </li>
+          </li> */}
 
           <li className='navbarListItem' onClick={() => navigate('/jobs ')}>
             <HomeIcon
